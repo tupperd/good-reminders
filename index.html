@@ -149,7 +149,7 @@
             }
         });
 
-        // Toggle visibility of controls using "c" key
+        // Event listener for key presses
         document.addEventListener('keydown', function(event) {
             if (event.key === 'c') {
                 countdownElement.classList.toggle('hidden');
@@ -162,6 +162,9 @@
                 } else {
                     document.body.style.backgroundImage = 'url("grots.png")'; // Set the background image
                 }
+            } else if (event.key === 's') {
+                // Shuffle quote on "s" key press
+                cycleContent();
             }
         });
 
