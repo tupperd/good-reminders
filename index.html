@@ -88,6 +88,8 @@
         let toggleTimerElement = document.getElementById('toggle-timer');
         let shuffleButtonElement = document.getElementById('shuffle-button');
 
+        let progressBarInterval;
+
         function getRandomIndex(max) {
             return Math.floor(Math.random() * max);
         }
@@ -111,7 +113,7 @@
             progressBarFill.style.width = '100%';
 
             // Calculate the decrement interval
-            let progressBarInterval = setInterval(() => {
+            progressBarInterval = setInterval(() => {
                 remainingTime--;
                 countdownTimerElement.textContent = formatTime(remainingTime);
                 let progressBarWidth = (remainingTime - 1) / (interval / 1000) * 100;
@@ -124,13 +126,14 @@
         }
 
         function cycleContent() {
+            clearInterval(progressBarInterval); // Clear previous interval if any
             updateContent();
             updateCountdown();
         }
 
-        // Shuffle the quote on button click
+        // Shuffle the quote on button click and reset timer
         shuffleButtonElement.addEventListener('click', () => {
-            updateContent();
+            cycleContent();
         });
 
         // Toggle visibility of the countdown timer
