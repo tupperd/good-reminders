@@ -14,6 +14,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            transition: background-image 0.3s ease-in-out; /* Smooth transition for background image */
         }
         #content-display {
             font-size: 24px;
@@ -74,12 +75,7 @@
     <button id="shuffle-button">Shuffle Quote</button>
 
     <script>
-        const content = [
-            "Quote 1: Stay focused and never give up.",
-            "Quote 2: Innovation distinguishes between a leader and a follower.",
-            "Quote 3: The only way to do great work is to love what you do.",
-            "Quote 4: Success is not final, failure is not fatal: it is the courage to continue that counts."
-        ];
+        const csvUrl = 'quotes.csv'; // URL to your CSV file
 
         const interval = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
         let countdownTimerElement = document.getElementById('countdown-timer');
@@ -87,6 +83,7 @@
         let toggleTimerElement = document.getElementById('toggle-timer');
         let shuffleButtonElement = document.getElementById('shuffle-button');
         let progressBarFill = document.getElementById('progress-bar-fill');
+        let quotes = [];
 
         let progressBarInterval;
 
@@ -95,7 +92,11 @@
         }
 
         function updateContent() {
-            document.getElementById('content-display').childNodes[0].textContent = content[getRandomIndex(content.length)];
+            if (quotes.length > 0) {
+                document.getElementById('content-display').childNodes[0].textContent = quotes[getRandomIndex(quotes.length)];
+            } else {
+                document.getElementById('content-display').childNodes[0].textContent = 'No quotes available.';
+            }
         }
 
         function formatTime(seconds) {
@@ -145,18 +146,38 @@
             }
         });
 
-        // Toggle visibility of timer, shuffle button, and toggle using "c" key
+        // Toggle visibility of timer, shuffle button, and toggle background image using "c" key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'c') {
                 const isHidden = countdownElement.style.display === 'none';
                 countdownElement.style.display = isHidden ? 'block' : 'none';
                 toggleTimerElement.parentElement.style.display = isHidden ? 'block' : 'none';
                 shuffleButtonElement.style.display = isHidden ? 'block' : 'none';
+            } else if (event.key === 'g') {
+                // Toggle background image on "g" key press
+                if (document.body.style.backgroundImage) {
+                    document.body.style.backgroundImage = ''; // Remove the background image
+                } else {
+                    document.body.style.backgroundImage = 'url("grots.png")'; // Set the background image
+                }
             }
         });
 
+        // Fetch and parse CSV file
+        function loadQuotes() {
+            fetch(csvUrl)
+                .then(response => response.text())
+                .then(data => {
+                    quotes = data.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+                    cycleContent(); // Initialize with first quote
+                })
+                .catch(error => {
+                    console.error('Error loading quotes:', error);
+                });
+        }
+
         // Initialize content and countdown
-        cycleContent();
+        loadQuotes();
         setInterval(cycleContent, interval);
     </script>
 </body>
