@@ -56,6 +56,8 @@
         </div>
     </div>
     <div id="countdown">Next quote in: <span id="countdown-timer">10</span> seconds</div>
+    <label><input type="checkbox" id="toggle-timer" checked> Show Time Till Next Quote</label>
+
     <script>
         const content = [
             "Quote 1: Stay focused and never give up.",
@@ -66,7 +68,9 @@
 
         const interval = 10 * 1000; // 10 seconds
         let countdownTimerElement = document.getElementById('countdown-timer');
+        let countdownElement = document.getElementById('countdown');
         let progressBarFill = document.getElementById('progress-bar-fill');
+        let toggleTimerElement = document.getElementById('toggle-timer');
 
         function getRandomIndex(max) {
             return Math.floor(Math.random() * max);
@@ -100,6 +104,15 @@
             updateContent();
             updateCountdown();
         }
+
+        // Toggle visibility of the countdown timer
+        toggleTimerElement.addEventListener('change', function() {
+            if (this.checked) {
+                countdownElement.style.display = 'block';
+            } else {
+                countdownElement.style.display = 'none';
+            }
+        });
 
         // Initialize content and countdown
         cycleContent();
