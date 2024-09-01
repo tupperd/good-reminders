@@ -55,7 +55,7 @@
             <div id="progress-bar-fill"></div>
         </div>
     </div>
-    <div id="countdown">Next quote in: <span id="countdown-timer">10</span> seconds</div>
+    <div id="countdown">Next quote in: <span id="countdown-timer">02:00:00</span></div>
     <label><input type="checkbox" id="toggle-timer" checked> Show Time Till Next Quote</label>
 
     <script>
@@ -66,7 +66,7 @@
             "Quote 4: Success is not final, failure is not fatal: it is the courage to continue that counts."
         ];
 
-        const interval = 10 * 1000; // 10 seconds
+        const interval = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
         let countdownTimerElement = document.getElementById('countdown-timer');
         let countdownElement = document.getElementById('countdown');
         let progressBarFill = document.getElementById('progress-bar-fill');
@@ -80,9 +80,16 @@
             document.getElementById('content-display').childNodes[0].textContent = content[getRandomIndex(content.length)];
         }
 
+        function formatTime(seconds) {
+            const hours = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            return `${hours}:${minutes}:${secs}`;
+        }
+
         function updateCountdown() {
-            let remainingTime = interval / 1000;
-            countdownTimerElement.textContent = remainingTime;
+            let remainingTime = interval / 1000; // Convert interval to seconds
+            countdownTimerElement.textContent = formatTime(remainingTime);
 
             // Ensure progress bar fill starts from 0
             progressBarFill.style.width = '100%';
@@ -90,7 +97,7 @@
             // Calculate the decrement interval
             let progressBarInterval = setInterval(() => {
                 remainingTime--;
-                countdownTimerElement.textContent = remainingTime;
+                countdownTimerElement.textContent = formatTime(remainingTime);
                 let progressBarWidth = (remainingTime - 1) / (interval / 1000) * 100;
                 progressBarFill.style.width = progressBarWidth + '%';
 
