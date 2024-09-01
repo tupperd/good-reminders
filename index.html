@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Cycler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #content-display {
+            font-size: 24px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            margin-bottom: 10px;
+            position: relative; /* Needed for absolute positioning of the progress bar */
+            overflow: hidden; /* Ensure content does not overflow */
+        }
+        #progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px; /* Increased height for the progress bar */
+            background-color: #ddd;
+            border-radius: 0 0 5px 5px;
+        }
+        #progress-bar-fill {
+            height: 100%;
+            background-color: black;
+            border-radius: 0 0 5px 5px;
+            width: 100%; /* Start from the full width */
+            position: absolute;
+            left: 0; /* Start from the left side */
+        }
+        #countdown {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content-display">
+        <div id="progress-bar-container">
+            <div id="progress-bar-fill"></div>
+        </div>
+    </div>
+    <div id="countdown">Next quote in: <span id="countdown-timer">10</span> seconds</div>
+    <script>
+        const content = [
+            "Quote 1: Stay focused and never give up.",
+            "Quote 2: Innovation distinguishes between a leader and a follower.",
+            "Quote 3: The only way to do great work is to love what you do.",
+            "Quote 4: Success is not final, failure is not fatal: it is the courage to continue that counts."
+        ];
+
+        let currentIndex = 0;
+        const interval = 10 * 1000; // 10 seconds
+        let countdownTimerElement = document.getElementById('countdown-timer');
+        let progressBarFill = document.getElementById('progress-bar-fill');
+
+        function getRandomIndex(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        function updateContent() {
+            document.getElementById('content-display').textContent = content[getRandomIndex(content.length)];
+        }
+
+        function updateCountdown() {
+            let remainingTime = interval / 1000;
+            countdownTimerElement.textContent = remainingTime;
+            let progressBarWidth = 100;
+
+            progressBarFill.style.width = '100%'; // Start from full width
+            let countdownInterval = setInterval(() => {
+                remainingTime--;
+                countdownTimerElement.textContent = remainingTime;
+                progressBarWidth = (remainingTime / (interval / 1000)) * 100;
+                progressBarFill.style.width = progressBarWidth + '%';
+                
+                if (remainingTime <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+        }
+
+        function cycleContent() {
+            updateContent();
+            updateCountdown();
+        }
+
+        // Initialize content and countdown
+        cycleContent();
+        setInterval(cycleContent, interval);
+    </script>
+</body>
+</html>
