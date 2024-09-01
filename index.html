@@ -62,6 +62,9 @@
         #shuffle-button:hover {
             background-color: #0056b3;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -70,9 +73,9 @@
             <div id="progress-bar-fill"></div>
         </div>
     </div>
-    <div id="countdown">Next quote in: <span id="countdown-timer">02:00:00</span></div>
-    <label><input type="checkbox" id="toggle-timer" checked> Show Time Till Next Quote</label>
-    <button id="shuffle-button">Shuffle Quote</button>
+    <div id="countdown" class="hidden">Next quote in: <span id="countdown-timer">02:00:00</span></div>
+    <label class="hidden"><input type="checkbox" id="toggle-timer" checked> Show Time Till Next Quote</label>
+    <button id="shuffle-button" class="hidden">Shuffle Quote</button>
 
     <script>
         const csvUrl = 'quotes.csv'; // URL to your CSV file
@@ -146,13 +149,12 @@
             }
         });
 
-        // Toggle visibility of timer, shuffle button, and toggle background image using "c" key
+        // Toggle visibility of controls using "c" key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'c') {
-                const isHidden = countdownElement.style.display === 'none';
-                countdownElement.style.display = isHidden ? 'block' : 'none';
-                toggleTimerElement.parentElement.style.display = isHidden ? 'block' : 'none';
-                shuffleButtonElement.style.display = isHidden ? 'block' : 'none';
+                countdownElement.classList.toggle('hidden');
+                toggleTimerElement.parentElement.classList.toggle('hidden');
+                shuffleButtonElement.classList.toggle('hidden');
             } else if (event.key === 'g') {
                 // Toggle background image on "g" key press
                 if (document.body.style.backgroundImage) {
