@@ -10,6 +10,8 @@ The issue with that is these notes are often "write once, read never" - *what go
 The idea is that you never know what information might help you unlock a solution to a problem or motivate you to stay the course. By keeping the app in a place that's readily available, you can easily remind yourself of the wisdom you've gathered over time!
 
 ## User Guide
+### Demo App
+[https://tupperd.github.io/good-reminders/](https://tupperd.github.io/good-reminders/)
 
 ### Useful Keystrokes
 * Press `s` to shuffle the quote being displayed
