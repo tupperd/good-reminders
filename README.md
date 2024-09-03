@@ -27,5 +27,6 @@ There has been significant discourse around whether AI can or will replace SWEs 
 
 ## Backlog 
 * Support for both images, videos, etc.
+* Formatting nice-to-haves (slightly less wide, newlines for quoted individuals, etc.)
 * Documentation for others to replicate for themselves
 * Easier ability for adding / subtracting quotes
